@@ -1,5 +1,5 @@
 import cv2
-import numpy as np  # Importa NumPy
+import numpy as np
 
 # Ruta de la imagen original
 imagen_ruta = 'camera_man_ruido.png'
@@ -26,15 +26,18 @@ if imagen is not None:
     imagen_tratada2 = cv2.medianBlur(imagen_tratada1, 5)
     cv2.imwrite('camera_man_tratada2.png', imagen_tratada2)
 
-    # Aplicar un filtro de realce de bordes para mejorar la claridad
     kernel = np.array([[-1, -1, -1],
                        [-1,  9, -1],
                        [-1, -1, -1]])
     imagen_tratada3 = cv2.filter2D(imagen_tratada2, -1, kernel=kernel)
     cv2.imwrite('camera_man_tratada3.png', imagen_tratada3)
 
+    # Aplicar el filtro bilateral
+    imagen_tratada4 = cv2.bilateralFilter(imagen_tratada3, d=9, sigmaColor=75, sigmaSpace=75)
+    cv2.imwrite('camera_man_tratada4.png', imagen_tratada4)
+
     # Mostrar la imagen tratada
-    cv2.imshow('Imagen Tratada', imagen_tratada3)
+    cv2.imshow('Imagen Tratada', imagen_tratada4)
 
     # Espera hasta que se presione una tecla y luego cierra la ventana
     cv2.waitKey(0)
